@@ -1,0 +1,24 @@
+# Dossier des résidus et fichiers archivés / exclus
+ALLdelete/
+/ALLdelete/
+
+# Fichiers de configuration et secrets d'environnement
+*.env
+*.key
+*.pem
+
+# Fichiers de commandes et scripts locaux
+*.bat
+*.cmd
+
+# Fichiers temporaires et logs système
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Outils IDE
+.vscode/
+.idea/
+.gemini/

@@ -1,0 +1,32 @@
+# ==============================================================
+# CONFIGURATION APACHE & REWRITING POUR DIGITAL AGENCY WIKY
+# Compatible InfinityFree, XAMPP, Laragon, WAMP
+# ==============================================================
+
+Options -Indexes
+ServerSignature Off
+
+# Encodage par défaut
+AddDefaultCharset UTF-8
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Protection des fichiers sensibles
+    RewriteRule ^(database\.sql|database\.sqlite|\.git|RAPPORT.*\.pdf|extracted_report\.txt) - [F,L,NC]
+
+    # Ne pas réécrire si le fichier ou répertoire existe réellement
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Redirection vers le contrôleur frontal
+    RewriteRule ^(.*)$ index.php?page=$1 [QSA,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Sécurité basique
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
