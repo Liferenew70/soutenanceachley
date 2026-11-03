@@ -77,6 +77,18 @@ $selectedService = $_GET['service'] ?? 'community-management';
                         </div>
                     </div>
 
+                    <!-- Estimation instantanée dans le flux du formulaire -->
+                    <div class="inline-calc-box">
+                        <div class="inline-calc-header">
+                            <span class="inline-calc-badge">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                Estimation indicative en direct
+                            </span>
+                            <span class="inline-calc-value" id="inline-calc-result">240 000 FCFA</span>
+                        </div>
+                        <p class="inline-calc-note">Ajusté automatiquement selon vos choix ci-dessus • Offre ferme sous 24h</p>
+                    </div>
+
                     <!-- Étape 2 : Coordonnées -->
                     <div class="form-section-title mt-6">2. Vos Coordonnées Professionnelles</div>
 
@@ -109,7 +121,7 @@ $selectedService = $_GET['service'] ?? 'community-management';
 
                     <div class="form-actions">
                         <button type="submit" class="btn btn--primary btn--full btn--lg">
-                            <span>Envoyer ma demande et bloquer ce tarif</span>
+                            <span>Envoyer ma demande de devis</span>
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </button>
                     </div>
@@ -119,26 +131,26 @@ $selectedService = $_GET['service'] ?? 'community-management';
             <!-- Carte Simulateur & Résumé en temps réel -->
             <div class="devis-summary-wrapper">
                 <div class="card devis-calc-card">
-                    <span class="calc-badge">Simulateur en Temps Réel</span>
-                    <h3 class="calc-title">Estimation Indicative</h3>
-                    <p class="calc-desc">Ce montant s'adapte automatiquement selon vos choix et permet de situer l'investissement.</p>
+                    <span class="badge">Estimation Indicative</span>
+                    <h3 class="calc-title">Budget Estimé de Votre Projet</h3>
+                    <p class="calc-desc">Ce montant indicatif s'adapte automatiquement selon vos options et permet de situer l'investissement.</p>
 
                     <div class="calc-price-display">
                         <span class="calc-price-value" id="calc-result">240 000 FCFA</span>
-                        <span class="calc-price-note">Hors taxes • Devis contractuel fourni sous 24h</span>
+                        <span class="calc-price-note">Hors taxes • Devis contractuel détaillé sous 24h</span>
                     </div>
 
                     <div class="calc-guarantees">
                         <div class="guarantee-item">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             <span>Zéro engagement avant signature de proposition</span>
                         </div>
                         <div class="guarantee-item">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             <span>Chargée de projet dédiée à votre dossier</span>
                         </div>
                         <div class="guarantee-item">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                             <span>Possibilité de paiement échelonné</span>
                         </div>
                     </div>

@@ -454,7 +454,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const mSpeed = speedMultipliers[speed] || 1.0;
 
             const total = Math.round(base * mScope * mSpeed);
-            calcResult.textContent = new Intl.NumberFormat('fr-FR').format(total) + ' FCFA';
+            const formattedTotal = new Intl.NumberFormat('fr-FR').format(total) + ' FCFA';
+            calcResult.textContent = formattedTotal;
+
+            const inlineCalc = document.getElementById('inline-calc-result');
+            if (inlineCalc) {
+                inlineCalc.textContent = formattedTotal;
+                inlineCalc.classList.add('price-updated');
+                setTimeout(() => inlineCalc.classList.remove('price-updated'), 300);
+            }
 
             // Animation subtile du chiffre
             calcResult.classList.add('price-updated');

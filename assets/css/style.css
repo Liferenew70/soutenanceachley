@@ -1305,16 +1305,43 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
 }
 
 .service-detail-item {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-8);
-    align-items: center;
-    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--theme-border);
+    background-color: var(--theme-bg-surface);
+}
+
+.service-detail-media {
+    order: -1;
+    width: 100%;
+    position: relative;
+}
+
+.service-detail-content {
+    padding: clamp(1.25rem, 4vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 @media (min-width: 992px) {
     .service-detail-item {
+        display: grid;
         grid-template-columns: 1.1fr 0.9fr;
+        gap: var(--space-8);
+        align-items: center;
+        padding: var(--space-8);
+    }
+
+    .service-detail-media {
+        order: initial;
+    }
+
+    .service-detail-content {
+        padding: 0;
     }
 
     .service-detail-item--reverse {
@@ -1384,9 +1411,32 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-6);
+    justify-content: space-between;
+    gap: var(--space-4);
     padding-top: var(--space-4);
     border-top: 1px solid var(--theme-border);
+    margin-top: auto;
+}
+
+@media (max-width: 640px) {
+    .service-detail-action {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .service-price-block {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .service-detail-action .btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
 }
 
 .service-price-block {
@@ -1407,17 +1457,26 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
 }
 
 .service-media-card {
+    position: relative;
+    overflow: hidden;
     border-radius: var(--radius-xl);
-    padding: var(--space-10);
-    color: #FFFFFF;
-    text-align: center;
-    min-height: 280px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    box-shadow: var(--shadow-lg);
+    aspect-ratio: 16 / 10;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--theme-border);
+    background-color: var(--color-neutral-900);
+    padding: 0;
+    width: 100%;
+}
+
+@media (max-width: 991px) {
+    .service-media-card {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        aspect-ratio: 16 / 9;
+        max-height: 260px;
+    }
 }
 
 .bg-grad-community-management { background: linear-gradient(135deg, #0284C7 0%, #0F172A 100%); }
@@ -2268,64 +2327,62 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
     color: var(--theme-text-muted);
 }
 
-/* Simulateur Devis */
+/* Simulateur Devis - Design Épuré & Professionnel Wiky Holding */
 .devis-calc-card {
     position: sticky;
     top: 96px;
-    background: linear-gradient(145deg, #1E1B4B 0%, #0F172A 100%);
-    color: #FFFFFF;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.calc-badge {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #38BDF8;
-    background: rgba(56, 189, 248, 0.15);
-    padding: 0.25rem 0.65rem;
-    border-radius: var(--radius-pill);
-    margin-bottom: var(--space-3);
+    background-color: var(--theme-bg-surface);
+    color: var(--theme-text-main);
+    border: 1px solid var(--theme-border);
+    border-top: 4px solid var(--primary-color);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
 }
 
 .calc-title {
-    color: #FFFFFF;
+    color: var(--theme-text-heading);
     font-size: 1.35rem;
+    font-weight: 700;
+    margin-top: var(--space-3);
     margin-bottom: var(--space-2);
 }
 
 .calc-desc {
-    color: #CBD5E1;
-    font-size: 0.875rem;
-    margin-bottom: var(--space-6);
+    color: var(--theme-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: var(--space-5);
 }
 
 .calc-price-display {
-    background: rgba(255, 255, 255, 0.08);
+    background-color: var(--theme-card-subtle);
     border-radius: var(--radius-lg);
-    padding: var(--space-6);
+    padding: var(--space-5) var(--space-4);
     text-align: center;
-    margin-bottom: var(--space-6);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    margin-bottom: var(--space-5);
+    border: 1px solid var(--theme-border);
 }
 
 .calc-price-value {
     display: block;
     font-family: var(--font-heading);
-    font-size: 2.25rem;
+    font-size: clamp(2rem, 5vw, 2.5rem);
     font-weight: 800;
-    color: #38BDF8;
+    color: var(--primary-color);
     line-height: 1.1;
+    letter-spacing: -0.5px;
     transition: transform var(--transition-fast);
 }
 
 .calc-price-value.price-updated {
-    transform: scale(1.08);
+    transform: scale(1.05);
 }
 
 .calc-price-note {
-    font-size: 0.75rem;
-    color: #94A3B8;
+    font-size: 0.8rem;
+    color: var(--theme-text-muted);
     margin-top: var(--space-2);
     display: block;
 }
@@ -2334,33 +2391,87 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    font-size: 0.85rem;
-    color: #E2E8F0;
+    font-size: 0.875rem;
+    color: var(--theme-text-main);
+    border-top: 1px solid var(--theme-border);
+    padding-top: var(--space-4);
 }
 
 .guarantee-item {
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
+    align-items: flex-start;
+    gap: var(--space-3);
+    line-height: 1.45;
 }
 
 .guarantee-item svg {
     color: var(--color-success);
     flex-shrink: 0;
+    margin-top: 2px;
+}
+
+/* Encadré d'estimation directe dans le formulaire */
+.inline-calc-box {
+    background-color: var(--theme-card-subtle);
+    border: 1.5px solid var(--theme-border);
+    border-left: 4px solid var(--primary-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.inline-calc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.inline-calc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.inline-calc-value {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    transition: transform var(--transition-fast);
+}
+
+.inline-calc-value.price-updated {
+    transform: scale(1.08);
+}
+
+.inline-calc-note {
+    font-size: 0.8rem;
+    color: var(--theme-text-muted);
+    margin-top: var(--space-1);
+    margin-bottom: 0;
 }
 
 /* --------------------------------------------------------------------------
    15. CTA BANNER & TESTIMONIALS
    -------------------------------------------------------------------------- */
 .cta-banner-section {
-    padding-bottom: clamp(3.5rem, 6vw, 6rem);
+    padding-bottom: clamp(4.5rem, 8vw, 7.5rem);
+    position: relative;
 }
 
 .cta-banner {
     background: #090D16;
     background: linear-gradient(145deg, #0F172A 0%, #020617 100%);
     border-radius: var(--radius-xl);
-    padding: clamp(2.5rem, 5vw, 4rem);
+    padding: clamp(1.75rem, 5vw, 3.5rem);
     color: #FFFFFF;
     display: grid;
     grid-template-columns: 1fr;
@@ -2390,14 +2501,24 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
     }
 }
 
+@media (max-width: 640px) {
+    .cta-banner {
+        padding: 1.5rem 1.25rem;
+        border-radius: var(--radius-lg);
+        text-align: center;
+    }
+}
+
 .cta-title {
     color: #FFFFFF;
     margin-bottom: var(--space-3);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    line-height: 1.25;
 }
 
 .cta-lead {
     color: #CBD5E1;
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
     line-height: 1.5;
 }
 
@@ -2406,16 +2527,27 @@ html:not([data-theme="dark"]):not([data-theme="navy"]) .icon-moon {
     flex-direction: column;
     gap: var(--space-3);
     width: 100%;
-    max-width: 360px;
+    max-width: 380px;
+}
+
+@media (max-width: 991px) {
+    .cta-buttons {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .cta-buttons .btn {
     width: 100%;
     justify-content: center;
     text-align: center;
-    white-space: nowrap;
-    padding: 0.95rem 1.5rem;
+    white-space: normal;
+    word-break: normal;
+    padding: 0.85rem 1.25rem;
     font-weight: 600;
+    min-height: 46px;
+    line-height: 1.3;
 }
 
 .btn--cta-quote {
@@ -3650,6 +3782,20 @@ textarea:focus {
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--theme-border);
     background-color: var(--color-neutral-900);
+    padding: 0;
+}
+
+@media (max-width: 991px) {
+    .service-media-card {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        aspect-ratio: 16 / 9;
+        max-height: 250px;
+        width: 100%;
+        padding: 0 !important;
+    }
 }
 
 .service-media-photo {
@@ -3673,6 +3819,15 @@ textarea:focus {
     justify-content: flex-end;
     padding: var(--space-6);
     gap: var(--space-2);
+}
+
+@media (max-width: 991px) {
+    .service-media-photo-overlay {
+        padding: var(--space-4);
+    }
+    .service-media-photo-overlay .media-title {
+        font-size: 1.1rem;
+    }
 }
 
 .service-media-photo-overlay .media-badge {
@@ -3844,5 +3999,240 @@ textarea:focus {
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+}
+
+/* ==========================================================================
+   19. AUDIT & HARMONISATION RESPONSIVE MOBILE UNIVERSELLE (SMARTPHONE & TABLETTE)
+   Assure une expérience irréprochable et sans débordement sur tout terminal
+   ========================================================================== */
+
+/* 1. Sécurité anti-débordement horizontal globale */
+html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* 2. Boutons universels fluides sur smartphone */
+@media (max-width: 768px) {
+    .btn {
+        max-width: 100%;
+        white-space: normal !important;
+        word-break: normal !important;
+        text-align: center;
+        line-height: 1.35;
+    }
+
+    .btn--full {
+        width: 100% !important;
+        display: flex !important;
+        justify-content: center !important;
+    }
+
+    .btn--lg {
+        min-height: 48px;
+        padding: 0.85rem 1.25rem;
+        font-size: 0.95rem;
+    }
+
+    /* Actions de héros de page sur mobile */
+    .hero-actions,
+    .page-hero .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 380px;
+        margin-left: auto;
+        margin-right: auto;
+        gap: var(--space-3);
+    }
+
+    .hero-actions .btn,
+    .page-hero .hero-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 3. Bouton flottant de retour en haut discret sur smartphone */
+@media (max-width: 640px) {
+    .floating-back-to-top {
+        bottom: 16px !important;
+        right: 14px !important;
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .floating-back-to-top .progress-ring {
+        width: 42px !important;
+        height: 42px !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+
+    .floating-back-to-top .progress-ring svg {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .floating-back-to-top .floating-arrow svg {
+        width: 16px !important;
+        height: 16px !important;
+    }
+}
+
+/* 4. Page Services : Format carte vitrine d'élite (conforme à Portfolio) */
+@media (max-width: 991px) {
+    .services-detailed-list {
+        gap: var(--space-8);
+    }
+
+    .service-detail-item {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border-radius: var(--radius-xl) !important;
+        background-color: var(--theme-bg-surface) !important;
+        border: 1px solid var(--theme-border) !important;
+    }
+
+    .service-detail-media {
+        order: -1 !important;
+        width: 100% !important;
+    }
+
+    .service-media-card {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        aspect-ratio: 16 / 9 !important;
+        max-height: 250px !important;
+        width: 100% !important;
+        padding: 0 !important;
+    }
+
+    .service-detail-content {
+        padding: 1.5rem 1.25rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .service-detail-title {
+        font-size: clamp(1.3rem, 5vw, 1.7rem) !important;
+        line-height: 1.25 !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .service-detail-desc {
+        font-size: 0.95rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .service-features-list {
+        margin-bottom: 1.25rem !important;
+    }
+
+    .features-heading {
+        font-size: 0.85rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .service-features-list ul {
+        gap: 0.45rem !important;
+    }
+
+    .service-features-list li {
+        font-size: 0.875rem !important;
+        line-height: 1.45 !important;
+    }
+
+    .service-detail-action {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+        padding-top: 1rem !important;
+        border-top: 1px solid var(--theme-border) !important;
+    }
+
+    .service-price-block {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: baseline !important;
+    }
+
+    .service-detail-action .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0.85rem 1.25rem !important;
+    }
+}
+
+/* 5. Page Devis : Disposition fluide et formulaire centré */
+@media (max-width: 991px) {
+    .devis-layout-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: var(--space-6) !important;
+    }
+
+    .devis-form-card {
+        padding: 1.5rem 1.25rem !important;
+    }
+
+    .devis-calc-card {
+        position: static !important;
+        padding: 1.5rem 1.25rem !important;
+    }
+
+    .form-actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+        text-align: center !important;
+        padding: 0.85rem 1.25rem !important;
+    }
+}
+
+/* 6. Page À Propos & Faits Marquants sur Smartphone */
+@media (max-width: 640px) {
+    .about-story-grid {
+        gap: var(--space-6);
+    }
+
+    .story-highlights {
+        grid-template-columns: 1fr !important;
+        gap: var(--space-3) !important;
+    }
+
+    .highlight-item {
+        display: flex !important;
+        align-items: baseline !important;
+        gap: var(--space-3) !important;
+        border-bottom: 1px solid var(--theme-border) !important;
+        padding-bottom: var(--space-2) !important;
+    }
+
+    .highlight-item:last-child {
+        border-bottom: none !important;
+    }
+
+    .highlight-num {
+        font-size: 1.6rem !important;
+        min-width: 65px !important;
+    }
+
+    .contact-form-card,
+    .contact-details-card {
+        padding: 1.5rem 1.25rem !important;
+    }
+
+    .pricing-card {
+        padding: 1.5rem 1.25rem !important;
     }
 }

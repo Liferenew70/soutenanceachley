@@ -38,7 +38,7 @@ require dirname(__DIR__) . '/layout/header.php';
                             <ul>
                                 <?php foreach ($srv['features'] as $feat): ?>
                                     <li>
-                                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" class="check-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="check-icon"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                         <span><?= e($feat) ?></span>
                                     </li>
                                 <?php endforeach; ?>
@@ -103,7 +103,7 @@ require dirname(__DIR__) . '/layout/header.php';
                     <ul class="pack-features">
                         <?php foreach ($pack['features'] as $f): ?>
                             <li>
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                 <span><?= e($f) ?></span>
                             </li>
                         <?php endforeach; ?>
