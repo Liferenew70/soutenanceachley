@@ -18,28 +18,20 @@ class Database
     // =========================================================================
     // PARAMÈTRES DE CONNEXION MYSQL (CENTRALISÉS ICI)
     // =========================================================================
-    // Modifiez uniquement ces constantes pour changer de base de données :
-    //
-    // --- 1. CONFIGURATION LOCALE (WampServer par défaut) ---
-    // public const DB_HOST = 'localhost';
-    // public const DB_NAME = 'wiky_db';        // Nom de la base créée dans phpMyAdmin
-    // public const DB_USER = 'root';           // Utilisateur par défaut de WampServer
-    // public const DB_PASS = '';               // Mot de passe vide par défaut sous WampServer
-    // public const DB_CHARSET = 'utf8mb4';
-    //
-    // --- 2. CONFIGURATION EN LIGNE (InfinityFree en production) ---
-    // public const DB_HOST = 'sqlxxx.infinityfree.com'; // ex: sql300.infinityfree.com
-    // public const DB_NAME = 'if0_xxxxxxx_wiky_db';    // ex: if0_37000000_wiky_db
-    // public const DB_USER = 'if0_xxxxxxx';            // ex: if0_37000000
-    // public const DB_PASS = 'votre_mot_de_passe';     // Mot de passe compte InfinityFree
-    // public const DB_CHARSET = 'utf8mb4';
-    // =========================================================================
+    // 1. CONFIGURATION LOCALE (WampServer / Laragon)
+    public const LOCAL_HOST = 'localhost';
+    public const LOCAL_NAME = 'wiky_db';
+    public const LOCAL_USER = 'root';
+    public const LOCAL_PASS = '';
 
-    public const DB_HOST = 'localhost';              // 'localhost' en local ou 'sqlxxx.infinityfree.com' en ligne
-    public const DB_NAME = 'wiky_db';                // Nom de la base de données
-    public const DB_USER = 'root';                   // Nom d'utilisateur MySQL
-    public const DB_PASS = '';                       // Mot de passe MySQL
-    public const DB_CHARSET = 'utf8mb4';             // Jeu de caractères UTF-8 complet
+    // 2. CONFIGURATION EN LIGNE (InfinityFree - Compte if0_43340677)
+    // Copiez ces informations depuis votre onglet "MySQL Databases" InfinityFree :
+    public const PROD_HOST = 'sql300.infinityfree.com'; // Ex: sqlxxx.infinityfree.com (MySQL Host Name)
+    public const PROD_NAME = 'if0_43340677_wiky_db';    // Ex: if0_43340677_xxx (Database Name créée)
+    public const PROD_USER = 'if0_43340677';            // Ex: if0_43340677 (MySQL User Name)
+    public const PROD_PASS = '';                        // Votre mot de passe de compte InfinityFree (vPanel)
+
+    public const DB_CHARSET = 'utf8mb4';
 
     /**
      * Récupère l'instance unique de connexion PDO (Patron Singleton)
@@ -53,11 +45,28 @@ class Database
     }
 
     /**
+     * Détermine si le script s'exécute en local ou en production
+     */
+    public static function isLocal(): bool
+    {
+        $serverName = $_SERVER['SERVER_NAME'] ?? '';
+        $httpHost   = $_SERVER['HTTP_HOST'] ?? '';
+        return ($serverName === 'localhost' || $serverName === '127.0.0.1' || $serverName === '::1'
+                || strpos($httpHost, 'localhost') !== false || strpos($httpHost, '127.0.0.1') !== false);
+    }
+
+    /**
      * Initialise et retourne la connexion PDO vers MySQL
      */
     private static function createConnection(): PDO
     {
-        $dsn = "mysql:host=" . self::DB_HOST . ";dbname=" . self::DB_NAME . ";charset=" . self::DB_CHARSET;
+        $isLocal = self::isLocal();
+        $host = $isLocal ? self::LOCAL_HOST : self::PROD_HOST;
+        $db   = $isLocal ? self::LOCAL_NAME : self::PROD_NAME;
+        $user = $isLocal ? self::LOCAL_USER : self::PROD_USER;
+        $pass = $isLocal ? self::LOCAL_PASS : self::PROD_PASS;
+
+        $dsn = "mysql:host=" . $host . ";dbname=" . $db . ";charset=" . self::DB_CHARSET;
         $options = [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -65,14 +74,40 @@ class Database
         ];
 
         try {
-            $pdo = new PDO($dsn, self::DB_USER, self::DB_PASS, $options);
+            $pdo = new PDO($dsn, $user, $pass, $options);
             return $pdo;
         } catch (PDOException $e) {
             // Affichage d'un message d'aide clair et professionnel en cas de mauvaise configuration
-            $host = htmlspecialchars(self::DB_HOST);
-            $db = htmlspecialchars(self::DB_NAME);
-            $user = htmlspecialchars(self::DB_USER);
+            $safeHost = htmlspecialchars($host);
+            $safeDb = htmlspecialchars($db);
+            $safeUser = htmlspecialchars($user);
             $msg = htmlspecialchars($e->getMessage());
+            $envLabel = $isLocal ? 'Environnement LOCAL détecté' : 'Environnement PRODUCTION (InfinityFree) détecté';
+
+            $guide = $isLocal ? <<<LOCAL
+            <h2>Guide pour démarrer en local avec WampServer :</h2>
+            <ol>
+                <li>Vérifiez que <strong>WampServer est lancé</strong> (l'icône Wamp dans la barre des tâches doit être <strong>verte</strong>).</li>
+                <li>Ouvrez <a href="http://localhost/phpmyadmin" target="_blank" style="color:#38bdf8;text-decoration:underline;">phpMyAdmin</a> dans votre navigateur.</li>
+                <li>Créez une base de données nommée <code>{$safeDb}</code> (interclassement : <code>utf8mb4_unicode_ci</code>).</li>
+                <li>Cliquez sur l'onglet <strong>Importer</strong> et sélectionnez le fichier <code>database.sql</code> du projet.</li>
+                <li>Actualisez ensuite cette page.</li>
+            </ol>
+LOCAL
+            : <<<PROD
+            <h2>Guide pour InfinityFree (Production) :</h2>
+            <ol>
+                <li>Allez dans votre panneau InfinityFree &gt; onglet <strong>MySQL Databases</strong>.</li>
+                <li>Créez une base si ce n'est pas déjà fait.</li>
+                <li>Ouvrez <code>app/Config/Database.php</code> et renseignez les 4 constantes <strong>PROD_*</strong> :
+                    <br>• <code>PROD_HOST</code> = MySQL Host Name (ex: <code>sql300.infinityfree.com</code>)
+                    <br>• <code>PROD_NAME</code> = MySQL Database Name (ex: <code>if0_43340677_wiky_db</code>)
+                    <br>• <code>PROD_USER</code> = MySQL User Name (ex: <code>if0_43340677</code>)
+                    <br>• <code>PROD_PASS</code> = Votre mot de passe de compte InfinityFree
+                </li>
+                <li>Dans phpMyAdmin en ligne, importez <code>sdldirecte.sql</code> ou <code>database.sql</code>.</li>
+            </ol>
+PROD;
 
             $html = <<<HTML
 <!DOCTYPE html>
@@ -85,6 +120,7 @@ class Database
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; box-sizing: border-box; }
         .card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 32px; max-width: 640px; width: 100%; box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
         h1 { color: #f87171; font-size: 22px; margin-top: 0; display: flex; align-items: center; gap: 10px; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #1e3a5f; color: #38bdf8; margin-bottom: 12px; }
         .params { background: #0f172a; border-radius: 8px; padding: 14px 18px; margin: 20px 0; font-family: Consolas, monospace; font-size: 14px; line-height: 1.6; }
         .params span { color: #94a3b8; }
         .params strong { color: #38bdf8; }
@@ -99,25 +135,19 @@ class Database
 </head>
 <body>
     <div class="card">
+        <div class="badge">{$envLabel}</div>
         <h1>⚠️ Connexion MySQL Requise</h1>
         <div class="alert"><strong>Erreur MySQL :</strong> {$msg}</div>
         
-        <p>Le site est configuré pour se connecter à MySQL avec les paramètres suivants (définis dans <code>app/Config/Database.php</code>) :</p>
+        <p>Paramètres de connexion actuels (dans <code>app/Config/Database.php</code>) :</p>
         <div class="params">
-            <div><span>Hôte (DB_HOST) :</span> <strong>{$host}</strong></div>
-            <div><span>Base (DB_NAME) :</span> <strong>{$db}</strong></div>
-            <div><span>Utilisateur (DB_USER) :</span> <strong>{$user}</strong></div>
+            <div><span>Hôte :</span> <strong>{$safeHost}</strong></div>
+            <div><span>Base :</span> <strong>{$safeDb}</strong></div>
+            <div><span>Utilisateur :</span> <strong>{$safeUser}</strong></div>
         </div>
 
         <div class="steps">
-            <h2>Guide pour démarrer en local avec WampServer :</h2>
-            <ol>
-                <li>Vérifiez que <strong>WampServer est lancé</strong> (l'icône Wamp dans la barre des tâches doit être <strong>verte</strong>).</li>
-                <li>Ouvrez <a href="http://localhost/phpmyadmin" target="_blank" style="color:#38bdf8;text-decoration:underline;">phpMyAdmin</a> dans votre navigateur.</li>
-                <li>Créez une base de données nommée <code>{$db}</code> (interclassement : <code>utf8mb4_unicode_ci</code>).</li>
-                <li>Cliquez sur l'onglet <strong>Importer</strong> et sélectionnez le fichier <code>database.sql</code> du projet.</li>
-                <li>Actualisez ensuite cette page.</li>
-            </ol>
+            {$guide}
         </div>
 
         <div style="text-align: right;">
