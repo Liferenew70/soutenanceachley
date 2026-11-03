@@ -11,9 +11,8 @@
 
 ## 🔗 Liens Rapides & Accès Officiels
 
-- 🚀 **Site Web en Production (InfinityFree) :** [https://achleybts2k25.xo.je](https://achleybts2k25.xo.je)
-- 🔐 **Back-Office d'Administration :** [https://achleybts2k25.xo.je/admin](https://achleybts2k25.xo.je/admin)  
-  *(Identifiants de démonstration : Identifiant `admin` / Mot de passe `admin123`)*
+- 🚀 **Site Web en Production (InfinityFree) :** [https://bts2k25achley.xo.je/](https://bts2k25achley.xo.je/)
+- 🔐 **Espace d'Administration :** [https://bts2k25achley.xo.je/admin](https://bts2k25achley.xo.je/admin)
 - 📦 **Dépôt Public GitHub :** [https://github.com/Liferenew70/soutenanceachley.git](https://github.com/Liferenew70/soutenanceachley.git)
 - 📑 **Livrables de Soutenance (Dossier `DOCSrapport/`) :**
   - [Rapport de Stage Complet (PDF)](DOCSrapport/RAPPORT_DE_STAGE_WIKY_HOLDING%204.pdf)
